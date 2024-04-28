@@ -42,58 +42,99 @@ welcome to my website</marquee>
 <br><h2>আলতা দিঘী</h2>
     <img src="https://bn.m.wikipedia.org/wiki/%E0%A6%9A%E0%A6%BF%E0%A6%A4%E0%A7%8D%E0%A6%B0:Dense_Forest_-_Alta_Dighi_National_Park.jpg" alt="আলতা দিঘী"></br>
 <p>These are the main places of interest in Naogaon,Rajshahi,Bangladesh.</p>
-    
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Comment Section</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comment Section</title>
+    <style>
+        /* Basic CSS styling for the comment section */
+        .comment {
+            margin-bottom: 20px;
+        }
+        .comment .author {
+            font-weight: bold;
+        }
+        .comment .timestamp {
+            font-size: 0.8em;
+            color: #666;
+        }
+        .comment .message {
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
+    <h1>Comment Section</h1>
+    
+    <!-- Form to submit new comments -->
+    <form id="commentForm">
+        <div>
+            <label for="author">Name:</label>
+            <input type="text" id="author" name="author" required>
+        </div>
+        <div>
+            <label for="message">Comment:</label>
+            <textarea id="message" name="message" rows="4" cols="50" required></textarea>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
 
-<h2>Comment Section</h2>
+    <!-- Display area for comments -->
+    <div id="comments"></div>
 
-<div id="comments">
-  <!-- Existing comments will be displayed here -->
-</div>
+    <script>
+        // Function to handle form submission
+        document.getElementById("commentForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent default form submission
 
-<hr>
+            // Get form values
+            var author = document.getElementById("author").value;
+            var message = document.getElementById("message").value;
+            var timestamp = new Date().toLocaleString(); // Get current timestamp
 
-<h3>Add a Comment</h3>
-<form id="commentForm">
-  <label for="name">Name:</label><br>
-  <input type="text" id="name" name="name"><br>
-  <label for="comment">Comment:</label><br>
-  <textarea id="comment" name="comment" rows="4" cols="50"></textarea><br><br>
-  <button type="submit">Submit</button>
-</form>
+            // Create a new comment element
+            var commentElement = document.createElement("div");
+            commentElement.classList.add("comment");
+            commentElement.innerHTML = `
+                <div class="author">${author}</div>
+                <div class="timestamp">${timestamp}</div>
+                <div class="message">${message}</div>
+            `;
 
-<script>
-document.getElementById('commentForm').addEventListener('submit', function(event) {
-  event.preventDefault(); // Prevent the form from submitting
+            // Append the new comment to the comments section
+            document.getElementById("comments").appendChild(commentElement);
 
-  // Get input values
-  var name = document.getElementById('name').value;
-  var comment = document.getElementById('comment').value;
+            // Save comment to local storage
+            var comments = JSON.parse(localStorage.getItem("comments")) || [];
+            comments.push({ author: author, message: message, timestamp: timestamp });
+            localStorage.setItem("comments", JSON.stringify(comments));
 
-  // Create comment element
-  var commentElement = document.createElement('div');
-  commentElement.innerHTML = '<strong>' + name + '</strong>: ' + comment;
+            // Clear form inputs after submission
+            document.getElementById("author").value = "";
+            document.getElementById("message").value = "";
+        });
 
-  // Append comment to comments section
-  document.getElementById('comments').appendChild(commentElement);
-
-  // Clear form fields
-  document.getElementById('name').value = '';
-  document.getElementById('comment').value = '';
-});
-</script>
-
+        // Function to load comments from local storage
+        window.addEventListener("load", function() {
+            var comments = JSON.parse(localStorage.getItem("comments")) || [];
+            var commentsContainer = document.getElementById("comments");
+            comments.forEach(function(comment) {
+                var commentElement = document.createElement("div");
+                commentElement.classList.add("comment");
+                commentElement.innerHTML = `
+                    <div class="author">${comment.author}</div>
+                    <div class="timestamp">${comment.timestamp}</div>
+                    <div class="message">${comment.message}</div>
+                `;
+                commentsContainer.appendChild(commentElement);
+            });
+        });
+    </script>
 </body>
-</html>
-
+</html> 
 
    
     <div align="center"><p style="background-color:white;">Powered by:<a href=https://www.facebook.com/profile.php?id=100095258707627&mibextid=JRoKGi>Md Mahmid Hossain</a></p></marquee></p></div>
 </body>
-</html.
+</html>
